@@ -41,7 +41,10 @@
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.3.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@daign/color": "^1.0.1",
+    "@daign/math": "^1.0.3"
+  },
   "nyc": {
     "include": [
       "lib/**/*.ts"
