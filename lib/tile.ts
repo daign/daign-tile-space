@@ -29,7 +29,11 @@ export class Tile {
   public constructor( min: Vector2, max: Vector2, partitionCount: number ) {
     this.min = min;
     this.max = max;
-    this.partitionCount = partitionCount;
+
+    if ( partitionCount < 2 ) {
+      throw new Error( 'Number of partitions must be 2 or more.' );
+    }
+    this.partitionCount = Math.floor( partitionCount );
   }
 
   /**
@@ -45,6 +49,7 @@ export class Tile {
         const min = tileWidth.clone().multiply( new Vector2( x, y ) ).add( this.min );
         const max = tileWidth.clone().multiply( new Vector2( x + 1, y + 1 ) ).add( this.min );
         const tile = new Tile( min, max, this.partitionCount );
+        tile.filling = this.filling;
         this.children.push( tile );
       }
     }
@@ -52,19 +57,19 @@ export class Tile {
 
   /**
    * Test whether point lies inside of tile including the lower border.
-   * @param p The point.
+   * @param point The point.
    * @returns Whether point lies inside of tile.
    */
-  public containsPoint( p: Vector2 ): boolean {
+  public containsPoint( point: Vector2 ): boolean {
     return !(
-      p.x < this.min.x || p.x >= this.max.x ||
-      p.y < this.min.y || p.y >= this.max.y
+      point.x < this.min.x || point.x >= this.max.x ||
+      point.y < this.min.y || point.y >= this.max.y
     );
   }
 
   /**
    * Get the tile at a given point.
-   * @param p The given point.
+   * @param point The given point.
    * @returns The resulting tile or null if not found.
    */
   public findTile( point: Vector2 ): Tile | null {
@@ -73,8 +78,8 @@ export class Tile {
         const m = point.clone().sub( this.min );
         const n = this.max.clone().sub( this.min );
         m.divide( n ).multiplyScalar( this.partitionCount ).floor();
-        const i = m.x + m.y * this.partitionCount;
-        return this.children[ i ].findTile( point );
+        const index = m.x + m.y * this.partitionCount;
+        return this.children[ index ].findTile( point );
       } else {
         return this;
       }
