@@ -42,8 +42,8 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "@daign/color": "^1.0.1",
-    "@daign/math": "^1.0.3"
+    "@daign/color": "^1.0.2",
+    "@daign/math": "^1.0.16"
   },
   "nyc": {
     "include": [

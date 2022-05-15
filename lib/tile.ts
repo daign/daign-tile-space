@@ -7,24 +7,25 @@ import { Vector2 } from '@daign/math';
 export class Tile {
   /* Min coordinates, has the smaller x and y values. */
   public min: Vector2;
-  /* Max coodinates, has the greater x and y values. */
+  /* Max coordinates, has the greater x and y values. */
   public max: Vector2;
 
-  /* The number of partitions along one axis. */
+  /* The number of partitions along one axis.
+   * Partition count of 2 means that the tile can be split into 2x2 sub tiles. */
   public partitionCount: number;
 
   /* The color of the tile or null. */
   public filling: Color | null = null;
 
-  /* The subtiles of the tile.
-   * Number of subtiles should always be zero or partitionCount^2. */
+  /* The sub tiles of the tile.
+   * Number of sub tiles should always be zero or partitionCount^2. */
   public children: Tile[] = [];
 
   /**
    * Constructor.
-   * @param min The min coordinates.
-   * @param max The max coordinates.
-   * @param partitionCount The number of partitions along one axis.
+   * @param min - The min coordinates.
+   * @param max - The max coordinates.
+   * @param partitionCount - The number of partitions along one axis.
    */
   public constructor( min: Vector2, max: Vector2, partitionCount: number ) {
     this.min = min;
@@ -37,7 +38,7 @@ export class Tile {
   }
 
   /**
-   * Split the tile into subtiles by number of partition count along each axis.
+   * Split the tile into sub tiles by number of partition count along each axis.
    */
   public split(): void {
     const tileWidth = this.max.clone().sub( this.min ).multiplyScalar(
